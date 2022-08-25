@@ -8,7 +8,7 @@ function init () {
         }, {
             searchControlProvider: 'yandex#search'
         });
-    function addMark(coords, iconContentVal, presetVal, menuContentVal, elemTag){
+    function addMark(coords, iconContentVal, presetVal, menuContentVal, elemTag, percent){
         var myPlacemark = new ymaps.Placemark(coords, {
         iconContent: iconContentVal
     }, {
@@ -31,8 +31,12 @@ function init () {
         }
     });
     myMap.geoObjects.add(myPlacemark);
+    
+    return percent;
+    
     }
-    var mark1 = addMark([55.776882, 37.581352], 'Ст. Метро Белорусская', "islands#greenStretchyIcon", '<div id="menu">\ <ul id="menu_list">\<li>Пиковая нагрузка:</li>\<li>9,6</li>\<li>тыс.чел./час пик</li>\<li>53%</li>\</ul>\</div>', '#menu')
+    var mark1 = addMark([55.776882, 37.581352], 'Ст. Метро Белорусская', "islands#greenStretchyIcon", '<div id="menu">\ <ul id="menu_list">\<li>Пиковая нагрузка:</li>\<li>9,6</li>\<li>тыс.чел./час пик</li>\<li>53%</li>\</ul>\</div>', '#menu', 30)
+    
     var mark2 = addMark([55.77378, 37.54412], 'Ст. Метро Беговая', "islands#greenStretchyIcon", '<div id="menu1">\<ul id="menu_list">\<li>Пиковая нагрузка:</li>\<li>9,6</li>\<li>тыс.чел./час пик</li>\<li>53%</li>\</ul>\</div>', "#menu1" )
     var mark3 = addMark([55.774584, 37.560923], 'Дорога из центра', "islands#greenStretchyIcon", '<div id="menu2">\<ul id="menu_list">\<li>Пиковая нагрузка:</li>\<li>9,6</li>\<li>тыс. авто/час пик</li>\<li>53%</li>\</ul>\</div>', "#menu2")
     var mark4 = addMark([55.775503, 37.571737], "Дорога в центр", "islands#greenStretchyIcon", '<div id="menu3">\<ul id="menu_list">\<li>Пиковая нагрузка:</li>\<li>9,6</li>\<li>тыс. авто/час пик</li>\<li>53%</li>\</ul>\</div>', "#menu3")
@@ -42,6 +46,8 @@ function init () {
     var mark8 = addMark([55.773887, 37.579179], "Дорога из центра", "islands#greenStretchyIcon", '<div id="menu7">\<ul id="menu_list">\<li>Пиковая нагрузка:</li>\<li>9,6</li>\<li>тыс. авто/час пик</li>\<li>53%</li>\</ul>\</div>', '#menu7')
     var mark9 = addMark([55.775097, 37.582827], "Дорога в центр", "islands#greenStretchyIcon", '<div id="menu8">\<ul id="menu_list">\<li>Пиковая нагрузка:</li>\<li>9,6</li>\<li>тыс. авто/час пик</li>\<li>53%</li>\</ul>\</div>', '#menu8' )
     myPlacemark1 = new ymaps.Placemark([21.324580, 0.951634],{}, {preset: "islands#redIcon", draggable: true});
+    
+    
     myMap.geoObjects.add(myPlacemark1);
     myPlacemark1.events.add("dragend", function (e) {
         let coords = this.geometry.getCoordinates();
@@ -55,7 +61,8 @@ function init () {
         myPlacemark1.geometry.setCoordinates(coords );
         return coords;
         
-        });    
+        }); 
+
     var select = document.getElementById('station');
     select.onchange = function(){
         console.log(select.value)
@@ -69,11 +76,25 @@ function init () {
         }
         
     }
-    function changeColor(id, color){
+    function changeColor(id, color, mark){
         var element = document.getElementById(id);
-        element.style.background = `${color}`;
-
+        alert('зашел в функцию')
+        if (mark <= 40){
+            element.style.background = 'green';
+            alert('в условии')
+        }
+        else if (mark > 40 && mark <= 65){
+            element.style.background = 'yellow'
+            alert('в условии')
+        }
+        else if (mark > 65){
+            element.style.background = 'red'
+            alert('в условии')
+        }
     }
+
+    mark1 = changeColor('#menu', mark1)
+    
 }
 var select = document.getElementById('type_change');
 var btn = document.getElementById('ok_btn')
