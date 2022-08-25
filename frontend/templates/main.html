@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Уровень</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=67b62d8b-ea26-4350-a5f6-6e7a3c6ed99e"
+        type="text/javascript"></script>
+    <script src="https://yandex.st/jquery/2.2.3/jquery.min.js" type="text/javascript"></script>
+    <style>
+        html, body, #map {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+      }
+ 
+      #coord_form{
+        position: absolute;
+        z-index: 1000;
+        background: none repeat scroll 0% 0% rgb(255, 255, 255);
+        list-style: none outside none;
+        padding: 10px;
+        margin: 0px;
+        right: 10px;
+        top: 50px;
+      }
+
+        #menu {
+            position: absolute;
+            width: 8.5em;
+            background: yellow;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding-bottom: 5px;
+            z-index: 2
+        }
+        #menu ul {
+            list-style-type: none;
+            padding: 5px;
+            margin: 0;
+        }
+
+
+        #menu1 {
+            position: absolute;
+            width: 8.5em;
+            background: yellow;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding-bottom: 5px;
+            z-index: 2
+        }
+        #menu1 ul {
+            list-style-type: none;
+            padding: 5px;
+            margin: 0;
+        }
+
+
+        #menu2 {
+            position: absolute;
+            width: 8.5em;
+            background: yellow;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding-bottom: 5px;
+            z-index: 2
+        }
+        #menu2 ul {
+            list-style-type: none;
+            padding: 5px;
+            margin: 0;
+        }
+
+
+        #menu3 {
+            position: absolute;
+            width: 8.5em;
+            background: yellow;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding-bottom: 5px;
+            z-index: 2
+        }
+        #menu3 ul {
+            list-style-type: none;
+            padding: 5px;
+            margin: 0;
+        }
+
+
+        #menu4 {
+            position: absolute;
+            width: 8.5em;
+            background: yellow;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding-bottom: 5px;
+            z-index: 2
+        }
+        #menu4 ul {
+            list-style-type: none;
+            padding: 5px;
+            margin: 0;
+        }
+
+
+        #menu5 {
+            position: absolute;
+            width: 8.5em;
+            background: yellow;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding-bottom: 5px;
+            z-index: 2
+        }
+        #menu5 ul {
+            list-style-type: none;
+            padding: 5px;
+            margin: 0;
+        }
+
+
+        #menu6 {
+            position: absolute;
+            width: 8.5em;
+            background: yellow;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding-bottom: 5px;
+            z-index: 2
+        }
+        #menu6 ul {
+            list-style-type: none;
+            padding: 5px;
+            margin: 0;
+        }
+
+
+        #menu7 {
+            position: absolute;
+            width: 8.5em;
+            background: green;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding-bottom: 5px;
+            z-index: 2
+        }
+        #menu7 ul {
+            list-style-type: none;
+            padding: 5px;
+            margin: 0;
+        }
+
+
+        input {
+            width: 10em;
+        }
+
+        .header {
+            padding: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="coord_form">
+        <table>
+            <p><label>Площадь здания: </label><input id="square" class="form-control" name="icon_text" /></p>
+            <p><label>Количество этажей: </label><input id="floors" class="form-control" name="icon_text" /></p>
+            <p><label>Тип здания: </label>
+                <select size='1' id="type_change">
+                    <option disabled> Выберите тип здания</option>
+                    <option value='Жилое'>Жилое</option>
+                    <option value='Отель'>Отель</option>
+                    <option value='Офис'>Офис</option>
+                    <option value='ЖК'>ЖК</option>
+                </select>
+            </p>
+            <p id="station_lbl"><label>Станция метро:</label>
+                <select id="metro_station" size="1">
+                    <option disabled>Выберите станцию метро</option>
+                    <option value='Белорусская'>Белорусская</option>
+                    <option value='Беговая'>Беговая</option>
+                </select>
+            </p>
+            <p><label>Координаты метки: </label><input id="coords" class="form-control" name="icon-text" readonly/></p>
+            <p id="qnt" style="visibility: hidden;"><label>Количество зданий: </label><input id="houses" class="form-control" name="icon-text"/></p>
+            <p><input id="ok_btn" type="submit" , value='OK'>
+            </p>
+        </table>
+    </div>
+</body>
+<div id="map"></div>
+</body>
+
+</html>
+<script>
+    var select = document.getElementById('type_change');
+    var btn = document.getElementById('ok_btn')
+    select.onchange = function () {
+        if (select.value === 'ЖК') {
+            document.getElementById('qnt').style.visibility = 'visible'
+        } else {
+            document.getElementById('qnt').style.visibility = 'hidden'
+        }
+    }
+    btn.onclick = function () {
+        let type = select.value
+        let dict = {
+            "ЖК": "/api/houses/",
+            "Жилое": "/api/house/",
+            "Отель": "/api/hotel/",
+            "Офис": "/api/office/",
+        }
+        let area = document.getElementById('square').value
+        let floors = document.getElementById('floors').value
+        let distance = 200
+        let important = 2
+        if (type === 'ЖК') {
+            let houses = document.getElementById('houses').value
+        }
+        let json = { 'area': area, 'floors': floors, 'type': type, 'coeff': 0.2, 'important_num': important, 'distance': distance }
+        fetch(dict[select.value], { method: 'POST', body: JSON.stringify(json) })
+    }
+
+</script>
+<script src="{{ url_for('static', path='/main.js') }}" type="text/javascript"></script>

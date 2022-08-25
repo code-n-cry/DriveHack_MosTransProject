@@ -1,10 +1,8 @@
 from fastapi import APIRouter, Request
 from fastapi.responses import JSONResponse
 from algorithm import *
-from app import app
-from backend.schemas.buildings import HouseData, HousesData
 from backend.schemas.district import DistrictData
-from backend.schemas.buildings import BuildingData
+from backend.schemas.buildings import BuildingData, HousesData
 
 router = APIRouter(
     prefix='/api'
@@ -28,6 +26,12 @@ async def create_district(district_data: DistrictData):
 async def create_hotel(hotel_data: BuildingData):
     hotel = Hotel(*hotel_data)
     return hotel.getter()
+
+
+@router.post('/office/')
+async def create_office(office_data: BuildingData):
+    office = Office(*office_data)
+    return office.getter()
 
 
 @router.post('/houses/')
