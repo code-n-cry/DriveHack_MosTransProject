@@ -1,0 +1,6 @@
+fastapi
+uvicorn
+databases
+aiohttp
+pydantic
+geopy
