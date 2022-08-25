@@ -1,12 +1,24 @@
 from fastapi import APIRouter, Request
 from fastapi.responses import JSONResponse
 from algorithm import *
+import aiohttp
+from geopy import distance
 from backend.schemas.district import DistrictData
 from backend.schemas.buildings import BuildingData, HousesData
 
 router = APIRouter(
     prefix='/api'
 )
+apikey = '67b62d8b-ea26-4350-a5f6-6e7a3c6ed99e'
+url = 'https://geocode-maps.yandex.ru/1.x'
+params = {
+    'apikey': apikey,
+    'geocode': None,
+    'sco': 'latlong',
+    'kind': 'metro',
+    'format': 'json'
+}
+bellar_district = District(202000,212000)
 # 0.85 - 500 - 1000
 
 
@@ -54,3 +66,15 @@ async def get_road(max_passengers: int, auto: float, all_auto: float, coeff: flo
 @router.get('/district/')
 async def get_cogestion():
     return {'road_1': 0.23}
+
+
+@router.get('/traffic')
+async def get_info(cords: str, type: str, area: float, floors: int, schools: int, n: int):
+    async with aiohttp.ClientSession() as session:
+        async with session.get(url=url, params=params) as response:
+             metro_info = await response.json()
+    metro_name = metro_info['response']['GeoObjectCollection']['featureMember'][1]['GeoObject']['name']
+    metro_cords = [float(i) for i in metro_info['response']['GeoObjectCollection']['featureMember'][1]['GeoObject']['Point']['pos']][::-1]
+    cords = [float(i) for i in cords.split(',')]
+    dst = distance.geodesic(cords, metro_cords).m
+    metro_coeff = dst // 500
