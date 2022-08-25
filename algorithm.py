@@ -1,3 +1,4 @@
+import base
 important_building_coeff = 1.2
 
 
@@ -111,8 +112,13 @@ class Metro(Infrastructure):
                     (all_metro['metro'] + metro_people['metro']) * metro_people['coeff']) + rush_people
         self.percentage = round(100 * self.rush_hour / self.max_passengers, 1)
 
+        self.effect = round(100 * (self.rush_hour - (100 * rush_people)) / self.max_passengers,1)
+        self.house_people = (all_metro['metro'] + metro_people['metro']) * metro_people['coeff']
+
+
     def getter(self):
-        return {'rush_hour': self.rush_hour, 'using_bandwidth': self.percentage}
+        return [{'effect_inequality' : self.effect,'house_people': round(self.house_people)},
+                {'rush_hour': self.rush_hour, 'using_bandwidth': self.percentage}]
 
 
 class Road(Infrastructure):
@@ -121,12 +127,25 @@ class Road(Infrastructure):
         self.max_passengers = max_passengers
         self.using_passenger_traffic = (auto['auto'] + all_auto['auto']) * auto['coeff']
         if direction:  # в центр
-            self.rush_hour = round(0.40 * 0.005023 * ((auto['auto'] + all_auto['auto']) * auto['coeff'])) + rush_people
+            self.rush_hour = round(0.40 * 0.005423 * ((auto['auto'] + all_auto['auto']) * auto['coeff'])) + rush_people
         else:  # из центра
-            self.rush_hour = round(0.20 * 0.005023 * ((auto['auto'] + all_auto['auto']) * auto['coeff'])) + rush_people
-
+            self.rush_hour = round(0.25 * 0.005423 * ((auto['auto'] + all_auto['auto']) * auto['coeff'])) + rush_people
+        self.effect = round(100 * (self.rush_hour - rush_people) / self.max_passengers,1)
         self.percentage = round(100 * self.rush_hour / self.max_passengers, 1)
+        self.house_people = (auto['auto'] + all_auto['auto']) * auto['coeff']
 
     def getter(self):
 
-        return {'rush_hour': self.rush_hour, 'percentage of max using': self.percentage}
+        return [{'effect_inequality' : self.effect,'house_people': round(self.house_people)},                # red color
+                {'rush_hour': self.rush_hour, 'percentage of max using': self.percentage}]
+
+#TEST
+
+Bellar_district = District(202000,212000)
+#print(Bellar_district.getter())
+dom = Office(1000,20,100,important_building_coeff, 1)
+#print(dom.getter())
+Bel_ring = Metro(18000, dom.getter(), Bellar_district.getter(), 9.6, 0)
+print(Bel_ring.getter())
+rod = Road(1562, dom.getter(), Bellar_district.getter(), 724,0)
+print(rod.getter())
