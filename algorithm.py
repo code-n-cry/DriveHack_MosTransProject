@@ -1,4 +1,4 @@
-important_building_coeff = 0.2
+important_building_coeff = 1.2
 
 
 class District:
@@ -32,7 +32,7 @@ class Building:
     """
 
     def __init__(self, area: float, floors: int,
-                    distance: float, coeff: float, important_num: int):
+                 distance: float, coeff: float, important_num: int, n=1):
         self.type = None
         self.metro_people = None
         self.auto = None
@@ -41,45 +41,51 @@ class Building:
         self.area = area
         self.important_buildings = important_num
         self.number_of_floors = floors
-        self.coeff = coeff * self.important_buildings
+        self.coeff = coeff
+        self.n = n
 
     def setter(self):
-        self.work_place = (self.area * self.number_of_floors) // self.coeff
+        self.work_place = self.important_buildings * self.n * (self.area * self.number_of_floors) // self.coeff
         self.auto = round(self.work_place / 1.2)
         self.metro_people = self.work_place - self.auto
 
     def getter(self):
         # answers [auto, metro, all_people, type, k]
         return {'auto': self.auto, 'metro': self.metro_people,
-                    'work_place': self.work_place, 'type': self.type, 'coeff': self.coeff}
+                'work_place': self.work_place, 'type': self.type, 'coeff': self.coeff}
 
 
 class Office(Building):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, area: float, floors: int,
+                 distance: float, coeff: float, important_num: int):
+        super().__init__(area, floors, distance, 10, important_num, 1)
         self.setter()
         self.type = "office"
-        print(self.getter())
 
 
 class House(Building):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, area: float, floors: int,
+                 distance: float, coeff: float, important_num: int, n: int):
+        super().__init__(area, floors, distance, 25, important_num, 1)
+        self.n = n
         self.setter()
         self.type = "house"
 
 
 class Houses(House):
-    def __init__(self, n):
-        super().__init__()
+    def __init__(self, area: float, floors: int,
+                 distance: float, coeff: float, important_num: int, n: int):
+        super().__init__(area, floors, distance, 25, important_num, n)
         self.n = n
         self.setter()
         self.type = "houses"
 
 
 class Hotel(Building):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, area: float, floors: int,
+                 distance: float, coeff: float, important_num: int, n: int):
+        super().__init__(area, floors, distance, 45, important_num, 1)
+        self.n = n
         self.setter()
         self.type = "hotel"
 
@@ -89,26 +95,38 @@ class Infrastructure:
         Родительский класс всех объектов инфраструктуры
     """
 
-    def __init__(self, max_passengers: int):
+    def __init__(self, max_passengers: int, metro_people: list, all_metro: list, rush_people: float, direction: int):
         self.using_passenger_traffic = None
         self.max_bandwidth = None
         self.max_passenger_traffic = max_passengers
         self.using_bandwidth = None
-    
-    def getter(self):
-        return self.max_passenger_traffic, self.using_bandwidth
+
 
 class Metro(Infrastructure):
-    def __init__(self, max_passengers: int, metro_people: float, all_metro: float, coeff: float):
-        super().__init__(max_passengers)
-        self.settings()
-        self.using_passenger_traffic = 0.35 * (all_metro + metro_people) * coeff
-        self.using_bandwidth = {round(100 * self.using_passenger_traffic / self.max_passenger_traffic)}
+    def __init__(self, max_passengers: int, metro_people: list, all_metro: list, rush_people: float, direction: int):
+        super().__init__(max_passengers, metro_people, all_metro, rush_people, direction=1)
+        self.max_passengers = max_passengers
+        self.using_passenger_traffic = (all_metro['metro'] + metro_people['metro']) * metro_people['coeff']
+        self.rush_hour = 0.35 * 0.6 * (
+                    (all_metro['metro'] + metro_people['metro']) * metro_people['coeff']) + rush_people
+        self.percentage = round(100 * self.rush_hour / self.max_passengers, 1)
+
+    def getter(self):
+        return {'rush_hour': self.rush_hour, 'using_bandwidth': self.percentage}
 
 
 class Road(Infrastructure):
-    def __init__(self, max_passengers: int, auto: float, all_auto: float, coeff: float):
-        super().__init__(max_passengers)
-        self.settings()
-        self.using_passenger_traffic = 0.35 * (auto + all_auto) * coeff
-        self.using_bandwidth = round(100 * self.using_passenger_traffic / self.max_passenger_traffic)
+    def __init__(self, max_passengers: int, auto: list, all_auto: list, rush_people: float, direction: int):
+        super().__init__(max_passengers, auto, all_auto, rush_people, direction=1)
+        self.max_passengers = max_passengers
+        self.using_passenger_traffic = (auto['auto'] + all_auto['auto']) * auto['coeff']
+        if direction:  # в центр
+            self.rush_hour = round(0.40 * 0.005023 * ((auto['auto'] + all_auto['auto']) * auto['coeff'])) + rush_people
+        else:  # из центра
+            self.rush_hour = round(0.20 * 0.005023 * ((auto['auto'] + all_auto['auto']) * auto['coeff'])) + rush_people
+
+        self.percentage = round(100 * self.rush_hour / self.max_passengers, 1)
+
+    def getter(self):
+
+        return {'rush_hour': self.rush_hour, 'percentage of max using': self.percentage}
