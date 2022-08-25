@@ -3,134 +3,145 @@ html, body, #map {
     padding: 0;
     height: 100%;
   }
-
 #coord_form{
-    position: absolute;
-    z-index: 1000;
-    background: none repeat scroll 0% 0% rgb(255, 255, 255);
-    list-style: none outside none;
-    padding: 10px;
-    margin: 0px;
-    right: 10px;
-    top: 50px;
-  }
-
+  position: absolute;
+  z-index: 1000;
+  background: none repeat scroll 0% 0% rgb(255, 255, 255);
+  list-style: none outside none;
+  padding: 10px;
+  margin: 0px;
+  right: 10px;
+  top: 50px;
+}
 #menu {
-        position: absolute;
-        width: 8.5em;
-        background: yellow;
-        border: 1px solid #ccc;
-        border-radius: 10px;
-        padding-bottom: 5px;
-        z-index: 2
-    }
+    position: absolute;
+    width: 8.5em;
+    background: yellow;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding-bottom: 5px;
+    z-index: 2
+}
 #menu ul {
-        list-style-type: none;
-        padding: 5px;
-        margin: 0;
-    }
- #menu1 {
-        position: absolute;
-        width: 8.5em;
-        background: yellow;
-        border: 1px solid #ccc;
-        border-radius: 10px;
-        padding-bottom: 5px;
-        z-index: 2
-    }
+    list-style-type: none;
+    padding: 5px;
+    margin: 0;
+}
+#menu1 {
+    position: absolute;
+    width: 8.5em;
+    background: yellow;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding-bottom: 5px;
+    z-index: 2
+}
 #menu1 ul {
-        list-style-type: none;
-        padding: 5px;
-        margin: 0;
-    }
+    list-style-type: none;
+    padding: 5px;
+    margin: 0;
+}
 #menu2 {
-        position: absolute;
-        width: 8.5em;
-        background: yellow;
-        border: 1px solid #ccc;
-        border-radius: 10px;
-        padding-bottom: 5px;
-        z-index: 2
-    }
+    position: absolute;
+    width: 8.5em;
+    background: yellow;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding-bottom: 5px;
+    z-index: 2
+}
 #menu2 ul {
-        list-style-type: none;
-        padding: 5px;
-        margin: 0;
-    }
-
+    list-style-type: none;
+    padding: 5px;
+    margin: 0;
+}
 #menu3 {
-        position: absolute;
-        width: 8.5em;
-        background: yellow;
-        border: 1px solid #ccc;
-        border-radius: 10px;
-        padding-bottom: 5px;
-        z-index: 2
-    }
+    position: absolute;
+    width: 8.5em;
+    background: yellow;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding-bottom: 5px;
+    z-index: 2
+}
 #menu3 ul {
-        list-style-type: none;
-        padding: 5px;
-        margin: 0;
-    }
+    list-style-type: none;
+    padding: 5px;
+    margin: 0;
+}
 #menu4 {
-        position: absolute;
-        width: 8.5em;
-        background: yellow;
-        border: 1px solid #ccc;
-        border-radius: 10px;
-        padding-bottom: 5px;
-        z-index: 2
-    }
+    position: absolute;
+    width: 8.5em;
+    background: yellow;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding-bottom: 5px;
+    z-index: 2
+}
 #menu4 ul {
-        list-style-type: none;
-        padding: 5px;
-        margin: 0;
-    }
+    list-style-type: none;
+    padding: 5px;
+    margin: 0;
+}
 #menu5 {
-        position: absolute;
-        width: 8.5em;
-        background: yellow;
-        border: 1px solid #ccc;
-        border-radius: 10px;
-        padding-bottom: 5px;
-        z-index: 2
-    }
+    position: absolute;
+    width: 8.5em;
+    background: yellow;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding-bottom: 5px;
+    z-index: 2
+}
 #menu5 ul {
-        list-style-type: none;
-        padding: 5px;
-        margin: 0;
-    }
+    list-style-type: none;
+    padding: 5px;
+    margin: 0;
+}
 #menu6 {
-        position: absolute;
-        width: 8.5em;
-        background: yellow;
-        border: 1px solid #ccc;
-        border-radius: 10px;
-        padding-bottom: 5px;
-        z-index: 2
-    }
+    position: absolute;
+    width: 8.5em;
+    background: yellow;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding-bottom: 5px;
+    z-index: 2
+}
 #menu6 ul {
-        list-style-type: none;
-        padding: 5px;
-        margin: 0;
-    }
+    list-style-type: none;
+    padding: 5px;
+    margin: 0;
+}
 #menu7 {
-        position: absolute;
-        width: 8.5em;
-        background: green;
-        border: 1px solid #ccc;
-        border-radius: 10px;
-        padding-bottom: 5px;
-        z-index: 2
-    }
+    position: absolute;
+    width: 8.5em;
+    background: yellow;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding-bottom: 5px;
+    z-index: 2
+}
 #menu7 ul {
-        list-style-type: none;
-        padding: 5px;
-        margin: 0;
-    }
+    list-style-type: none;
+    padding: 5px;
+    margin: 0;
+}
+#menu8 {
+    position: absolute;
+    width: 8.5em;
+    background: yellow;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding-bottom: 5px;
+    z-index: 2
+}
+#menu8 ul {
+    list-style-type: none;
+    padding: 5px;
+    margin: 0;
+}
 input {
-        width: 10em;
-    }
+    width: 10em;
+}
 .header {
-        padding: 5px;
-    }
+    padding: 5px;
+}
