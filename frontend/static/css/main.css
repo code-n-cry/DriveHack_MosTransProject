@@ -139,6 +139,22 @@ html, body, #map {
     padding: 5px;
     margin: 0;
 }
+
+#menu_move {
+    position: absolute;
+    width: 8.5em;
+    background: yellow;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding-bottom: 5px;
+    z-index: 2
+}
+#menu_move ul {
+    list-style-type: none;
+    padding: 5px;
+    margin: 0;
+}
+
 input {
     width: 10em;
 }
