@@ -76,8 +76,6 @@ class Office(Building):
         else:
             self.K_high = 0.4
         self.setter()
-        # distance = float(input())
-
         self.type = "office"
 
 
@@ -100,7 +98,7 @@ class House(Building):
 class Houses(House):
     def __init__(self, area: float, floors: int,
                  distance: float, important_num: int, n: int):
-        super().__init__(area, floors, distance, 25, important_num, n)
+        super().__init__(area, floors, distance, important_num, n)
         self.n = n
         self.distance = distance
         if self.distance <= 500:
