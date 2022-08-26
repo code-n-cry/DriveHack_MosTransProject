@@ -44,20 +44,12 @@ function init () {
             let coords = this.geometry.getCoordinates();
             coords_arr = coords
             myPlacemark.geometry.setCoordinates(coords);
-            var elem = document.getElementById('results')
-            elem.innerHTML = `<p><div><ul id="menu_list"><li> Пиковая нагрузка:</li><li>${load}</li></ul></div></p>`
-            var elem = document.getElementById('results2')
-            elem.innerHTML = `<p><div><ul id="menu_list"><li>тыс.чел./час пик</li><li>${percent}</li></ul></div></p>`
             }, myPlacemark);
     
         myMap.events.add('click', function (e) {        
              let coords = e.get('coords');
             coords_arr = coords
             myPlacemark.geometry.setCoordinates(coords);
-            var elem = document.getElementById('results')          
-            elem.innerHTML = `<p><div><ul id="menu_list"><li> Пиковая нагрузка:</li><li>${load}</li></ul></div></p>`
-            var elem = document.getElementById('results2')
-            elem.innerHTML = `<p><div><ul id="menu_list"><li>тыс.чел./час пик</li><li>${percent}</li></ul></div></p>`
             return coords;     
         }); 
         
