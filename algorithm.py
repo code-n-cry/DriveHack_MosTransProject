@@ -165,7 +165,7 @@ class Metro(Infrastructure):
         else:
             self.a = 0
              
-            self.percentage = self.rush_hour/self.percentage
+            self.percentage = self.rush_hour/self.max_passengers
 
     def getter(self):
         if self.a:
