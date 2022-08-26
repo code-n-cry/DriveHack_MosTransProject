@@ -174,7 +174,7 @@ class Metro(Infrastructure):
         else:
             self.a = 0
 
-            self.percentage =round(1000*9.6 / 18000, 1)
+            self.percentage =round(100000*9.6 / 18000, 1)
 
     def getter(self):
         if self.a and k_high:
