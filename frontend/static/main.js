@@ -75,7 +75,7 @@ function init () {
     return percent;
     
     }
-    var moveMark = addMoveMark([21.324580, 0.951634], 'метка заебись', "islands#redStretchyIcon", '<div id = "menu_move"> <ul id = "menu_move_list"> <li>прикольчик</li></ul></div>', '#menu_move', 47)
+    var moveMark = addMoveMark([21.324580, 0.951634], 'метка))', "islands#redStretchyIcon", '<div id = "menu_move"> <ul id = "menu_move_list"> <li>прикольчик</li></ul></div>', '#menu_move', 47)
 
     var mark1 = addMark([55.776882, 37.581352], 'Ст. Метро Белорусская', "islands#greenStretchyIcon", '<div id="menu">\ <ul id="menu_list">\<li>Пиковая нагрузка:</li>\<li>9,6</li>\<li>тыс.чел./час пик</li>\<li>53%</li>\</ul>\</div>', '#menu', 30)
     
