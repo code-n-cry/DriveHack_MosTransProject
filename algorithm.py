@@ -146,22 +146,27 @@ class Metro(Infrastructure):
         super().__init__(max_passengers, metro_people, all_metro, rush_people, direction, pick="12:30")
         self.time = time(pick)
         self.max_passengers = max_passengers
-        self.using_passenger_traffic = (all_metro['metro'] + metro_people['metro']) * metro_people['coeff']
-        if 360 <= self.time <= 540 or 1020 <= self.time <= 1200:
-            self.rush_hour = 0.5 * 0.6 * (
-                    (all_metro['metro'] + metro_people['metro']) * metro_people['coeff']) + rush_people
-        else:
-            self.rush_hour = 0.35 * 0.5 * (
-                    (all_metro['metro'] + metro_people['metro']) * metro_people['coeff']) + rush_people
-        self.percentage = round(100 * self.rush_hour / self.max_passengers, 1)
+        self.sum_peopel = metro_people['metro'] + metro_people['auto']
+        if (metro_people['metro']) + metro_people['auto']:
+            self.using_passenger_traffic = (all_metro['metro'] + metro_people['metro']) * metro_people['coeff']
+            if 360 <= self.time <= 540 or 1020 <= self.time <= 1200:
+                self.rush_hour = 0.5 * 0.6 * (
+                        (all_metro['metro'] + metro_people['metro']) * metro_people['coeff']) + rush_people
+            else:
+                self.rush_hour = 0.35 * 0.5 * (
+                        (all_metro['metro'] + metro_people['metro']) * metro_people['coeff']) + rush_people
+            self.percentage = round(100 * self.rush_hour / self.max_passengers, 1)
 
-        self.effect = round(round((100 * (self.rush_hour) / self.max_passengers), 1) - round(
-            10 * (self.rush_hour - rush_people) / self.max_passengers, 1), 1)
-        self.house_people = (metro_people['metro']) + metro_people['auto']
+            self.effect = round(round((100 * (self.rush_hour) / self.max_passengers), 1) - round(
+                10 * (self.rush_hour - rush_people) / self.max_passengers, 1), 1)
+            self.house_people = (metro_people['metro']) + metro_people['auto']
+            self.a = round(self.percentage - self.effect, 1)
+        else:
+            self.a = 0
 
     def getter(self):
         return [
-            {'effect_inequality': round(self.percentage - self.effect, 1), 'house_people': round(self.house_people)},
+            {'effect_inequality': self.a, 'house_people': self.sum_peopel},
             {'rush_hour': self.rush_hour, 'using_bandwidth': self.percentage}]
 
 
