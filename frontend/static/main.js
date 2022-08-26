@@ -35,6 +35,48 @@ function init () {
     return percent;
     
     }
+
+
+    function addMoveMark(coords, iconContentVal, presetVal, menuContentVal, elemTag, percent){
+        myPlacemark = new ymaps.Placemark([21.324580, 0.951634],{iconContent: iconContentVal}, {preset: presetVal, draggable: true});
+        myMap.geoObjects.add(myPlacemark);
+        
+        
+        myPlacemark.events.add("dragend", function (e) {
+            let coords = this.geometry.getCoordinates();
+            myPlacemark.geometry.setCoordinates(coords );
+            
+            return coords;
+            }, myPlacemark);
+    
+        myMap.events.add('click', function (e) {        
+            let coords = e.get('coords');
+            myPlacemark.geometry.setCoordinates(coords);
+            console.log(coords)
+            return coords;
+            
+            }); 
+            myPlacemark.events.add('contextmenu', function (e) {
+                if ($(elemTag).css('display') == 'block') {
+                    $(elemTag).remove();
+                } else {
+                    var menuContent = menuContentVal
+                    $('body').append(menuContent);
+                    $(elemTag).css({
+                        left: e.get('pagePixels')[0],
+                        top: e.get('pagePixels')[1]
+                    });
+        
+                    $(`${elemTag} input[type="submit"]`).click(function () {
+                        $(elemTag).remove();}
+            )};
+            
+    });
+    return percent;
+    
+    }
+    var moveMark = addMoveMark([21.324580, 0.951634], 'метка заебись', "islands#redStretchyIcon", '<div id = "menu_move"> <ul id = "menu_move_list"> <li>прикольчик</li></ul></div>', '#menu_move', 47)
+
     var mark1 = addMark([55.776882, 37.581352], 'Ст. Метро Белорусская', "islands#greenStretchyIcon", '<div id="menu">\ <ul id="menu_list">\<li>Пиковая нагрузка:</li>\<li>9,6</li>\<li>тыс.чел./час пик</li>\<li>53%</li>\</ul>\</div>', '#menu', 30)
     
     var mark2 = addMark([55.77378, 37.54412], 'Ст. Метро Беговая', "islands#greenStretchyIcon", '<div id="menu1">\<ul id="menu_list">\<li>Пиковая нагрузка:</li>\<li>9,6</li>\<li>тыс.чел./час пик</li>\<li>53%</li>\</ul>\</div>', "#menu1" )
@@ -45,39 +87,28 @@ function init () {
     var mark7 = addMark([55.772581, 37.572870], "Дорога в центр", "islands#greenStretchyIcon", '<div id="menu6">\<ul id="menu_list">\<li>Пиковая нагрузка:</li>\<li>9,6</li>\<li>тыс. авто/час пик</li>\<li>53%</li>\</ul>\</div>', "#menu6")
     var mark8 = addMark([55.773887, 37.579179], "Дорога из центра", "islands#greenStretchyIcon", '<div id="menu7">\<ul id="menu_list">\<li>Пиковая нагрузка:</li>\<li>9,6</li>\<li>тыс. авто/час пик</li>\<li>53%</li>\</ul>\</div>', '#menu7')
     var mark9 = addMark([55.775097, 37.582827], "Дорога в центр", "islands#greenStretchyIcon", '<div id="menu8">\<ul id="menu_list">\<li>Пиковая нагрузка:</li>\<li>9,6</li>\<li>тыс. авто/час пик</li>\<li>53%</li>\</ul>\</div>', '#menu8' )
-    myPlacemark1 = new ymaps.Placemark([21.324580, 0.951634],{}, {preset: "islands#redIcon", draggable: true});
     
     
-    myMap.geoObjects.add(myPlacemark1);
-    myPlacemark1.events.add("dragend", function (e) {
-        let coords = this.geometry.getCoordinates();
-        myPlacemark1.geometry.setCoordinates(coords );
-        
-        return coords;
-        }, myPlacemark1);
+    
+    
 
-    myMap.events.add('click', function (e) {        
-        let coords = e.get('coords');
-        myPlacemark1.geometry.setCoordinates(coords );
-        return coords;
-        
-        }); 
 
-    var select = document.getElementById('station');
-    select.onchange = function(){
-        console.log(select.value)
-        if (select.value === 'Беговая'){
+    var select_station = document.getElementById('metro_station');
+    select_station.onchange = function(){
+        console.log(select_station.value)
+        if (select_station.value === 'Беговая'){
             myMap.setCenter([55.771150, 37.543381])
 
             
         }
-        else if (select.value === 'Белорусская'){
+        else if (select_station.value === 'Белорусская'){
             myMap.setCenter([55.776882, 37.581352])
         }
         
     }
     function changeColor(id, color, mark){
         var element = document.getElementById(id);
+        
         alert('зашел в функцию')
         if (mark <= 40){
             element.style.background = 'green';
@@ -95,18 +126,18 @@ function init () {
 
     mark1 = changeColor('#menu', mark1)
     
-}
-var select = document.getElementById('type_change');
+
+var select_house = document.getElementById('type_change');
 var btn = document.getElementById('ok_btn')
-select.onchange = function () {
-    if (select.value === 'ЖК') {
+select_house.onchange = function () {
+    if (select_house.value === 'ЖК') {
             document.getElementById('qnt').style.visibility = 'visible'
     } else {
             document.getElementById('qnt').style.visibility = 'hidden'
     }
 }
 btn.onclick = function () {
-    let type = select.value
+    let type = select_house.value
     let dict = {
         "ЖК": "/api/houses/",
         "Жилое": "/api/house/",
@@ -122,4 +153,5 @@ btn.onclick = function () {
     }
     let json = { 'area': area, 'floors': floors, 'type': type, 'coeff': 0.2, 'important_num': important, 'distance': distance }
     fetch(dict[select.value], { method: 'POST', body: JSON.stringify(json) })
+}
 }
