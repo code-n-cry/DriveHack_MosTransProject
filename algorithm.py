@@ -146,7 +146,8 @@ class Metro(Infrastructure):
         super().__init__(max_passengers, metro_people, all_metro, rush_people, direction, pick="12:30")
         self.time = time(pick)
         self.max_passengers = max_passengers
-        self.sum_peopel = metro_people['metro'] + metro_people['auto']
+        self.rush_hour = rush_people
+        self.sum_people = metro_people['metro'] + metro_people['auto']
         if (metro_people['metro']) + metro_people['auto']:
             self.using_passenger_traffic = (all_metro['metro'] + metro_people['metro']) * metro_people['coeff']
             if 360 <= self.time <= 540 or 1020 <= self.time <= 1200:
@@ -163,6 +164,8 @@ class Metro(Infrastructure):
             self.a = round(self.percentage - self.effect, 1)
         else:
             self.a = 0
+             
+            self.percentage = self.rush_hour/self.percentage
 
     def getter(self):
         if self.a:
@@ -172,7 +175,7 @@ class Metro(Infrastructure):
         else:
             return [
                 {'effect_inequality': self.a, 'house_people': self.sum_peopel},
-                {'rush_hour': 0, 'using_bandwidth': 0}]
+                {'rush_hour': self.rush_hour, 'using_bandwidth': self.percentage}]
 
 class Road(Infrastructure):
     def __init__(self, max_passengers: int, auto: list, all_auto: list, rush_people: float, direction: int, pick: str):
@@ -195,7 +198,7 @@ class Road(Infrastructure):
         self.house_people = (auto['auto']) + auto['metro']
 
     def getter(self):
-
+        
         return [{'effect_inequality': self.effect, 'house_people': round(self.house_people)},  # red color
                 {'rush_hour': self.rush_hour, 'percentage of max using': self.percentage}]
 
