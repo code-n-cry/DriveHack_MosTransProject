@@ -87,14 +87,15 @@ class House(Building):
         super().__init__(area, floors, distance, 25, important_num, 1)
         self.n = n
         self.distance = distance
-        if self.distance >=3500:
-            self.K_high = 1
+        if self.distance >= 3500:
+            self.K_high = 0
+            k_high = 0
         elif self.distance <= 500:
             self.K_high = 1
         elif 500 < self.distance <= 1000:
             self.K_high = 0.3
         else:
-            self.K_high = 0.2
+            self.K_high = 0.09
         self.setter()
         self.type = "house"
 
