@@ -18,63 +18,20 @@ params = {
     'kind': 'metro',
     'format': 'json'
 }
-bellar_district = District(202000,212000)
+bellar_district = District(202000, 212000)
 # 0.85 - 500 - 1000
-
-
-@router.post('/house/')
-async def create_house(house_data: BuildingData):
-    house = House(*house_data)
-    return house.getter()
-
-
-@router.post('/district/')
-async def create_district(district_data: DistrictData):
-    district = District(district_data.living_people, district_data.office_people)
-    return district.getter()
-
-
-@router.post('/hotel/')
-async def create_hotel(hotel_data: BuildingData):
-    hotel = Hotel(*hotel_data)
-    return hotel.getter()
-
-
-@router.post('/office/')
-async def create_office(office_data: BuildingData):
-    office = Office(*office_data)
-    return office.getter()
-
-
-@router.post('/houses/')
-async def create_houses(houses_data: HousesData):
-    houses = Houses(*houses_data)
-    return houses.getter()
-
-
-@router.get('/metro/')
-async def get_metro(max_passengers: int, metro_people: float, all_metro: float, coeff: float):
-    metro = Metro(max_passengers, metro_people, all_metro, coeff)
-    return metro.getter()
-
-
-@router.get('/road/')
-async def get_road(max_passengers: int, auto: float, all_auto: float, coeff: float):
-    road = Road(max_passengers, auto, all_auto, coeff)
-    return road.getter()
-
-@router.get('/district/')
-async def get_cogestion():
-    return {'road_1': 0.23}
+roads = {'Center': ([55.775503, 37.571737],  [55.773229, 37.554314], [55.772581, 37.572870], [55.775097, 37.582827]),
+         'Out': ([55.774584, 37.560923], [55.770859, 37.567703], [55.773887, 37.579179])}
+types = {'ЖК': Houses, 'Жилое': House, 'Отель': Hotel, 'Офис': Office}
+metro_cords = {'Белорусская': (55.777349, 37.581997), 'Беговая': (55.773106, 37.549837)}
 
 
 @router.get('/traffic')
-async def get_info(cords: str, type: str, area: float, floors: int, schools: int, n: int):
-    async with aiohttp.ClientSession() as session:
-        async with session.get(url=url, params=params) as response:
-             metro_info = await response.json()
-    metro_name = metro_info['response']['GeoObjectCollection']['featureMember'][1]['GeoObject']['name']
-    metro_cords = [float(i) for i in metro_info['response']['GeoObjectCollection']['featureMember'][1]['GeoObject']['Point']['pos']][::-1]
-    cords = [float(i) for i in cords.split(',')]
-    dst = distance.geodesic(cords, metro_cords).m
-    metro_coeff = dst // 500
+async def get_info(cords: str, type: str, area: float, floors: int, schools: int, n: int, metro: str, time: str):
+    cords = tuple(float(i) for i in cords.split(','))
+    dst = distance.geodesic(cords, metro_cords[metro]).m
+    print(dst)
+    building = types[type](area, floors, dst, schools, n)
+    metro_params = {'Default': {'Белорусская': 18000, 'Беговая': 13500}, 'Rush': {'Белорусская': 9.6, 'Беговая': 34}}
+    metro = Metro(metro_params['Default'][metro], building.getter(), bellar_district.getter(), metro_params['Rush'][metro], 1, time)
+    return metro.getter()
