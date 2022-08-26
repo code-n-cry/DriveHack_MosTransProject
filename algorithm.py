@@ -66,7 +66,7 @@ class Building:
 
 class Office(Building):
     def __init__(self, area: float, floors: int,
-                 distance: float, coeff: float, important_num: int):
+                 distance: float, important_num: int, n: int):
         super().__init__(area, floors, distance, 10, important_num, 1)
         self.distance = distance
         if self.distance <= 500:
@@ -83,7 +83,7 @@ class Office(Building):
 
 class House(Building):
     def __init__(self, area: float, floors: int,
-                 distance: float, coeff: float, important_num: int, n: int):
+                 distance: float, important_num: int, n: int):
         super().__init__(area, floors, distance, 25, important_num, 1)
         self.n = n
         self.distance = distance
@@ -99,7 +99,7 @@ class House(Building):
 
 class Houses(House):
     def __init__(self, area: float, floors: int,
-                 distance: float, coeff: float, important_num: int, n: int):
+                 distance: float, important_num: int, n: int):
         super().__init__(area, floors, distance, 25, important_num, n)
         self.n = n
         self.distance = distance
@@ -115,7 +115,7 @@ class Houses(House):
 
 class Hotel(Building):
     def __init__(self, area: float, floors: int,
-                 distance: float, coeff: float, important_num: int, n: int):
+                 distance: float, important_num: int, n: int):
         super().__init__(area, floors, distance, 45, important_num, 1)
         self.n = n
         self.distance = distance
@@ -192,7 +192,6 @@ class Road(Infrastructure):
         return [{'effect_inequality': self.effect, 'house_people': round(self.house_people)},  # red color
                 {'rush_hour': self.rush_hour, 'percentage of max using': self.percentage}]
 
-    
-# self, area: float, floors: int, distance: float, coeff: float, important_num: int, n: int
-# self, max_passengers: int, metro_people: list, all_metro: list, rush_people: float, direction: int, pick: str
+
+#rod = Road(1562, dom.getter(), Bellar_district.getter(), 724, 1, "01:30")
 # self, max_passengers: int, auto: list, all_auto: list, rush_people: float, direction: int, pick: str
