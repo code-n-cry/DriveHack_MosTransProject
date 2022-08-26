@@ -83,11 +83,11 @@ function init () {
     var mark9 = addMark([55.775097, 37.582827], "Дорога в центр", "islands#blueStretchyIcon", '<div id="menu8">\<ul id="menu_list">\<li>Пиковая нагрузка:</li>\<li>9,6</li>\<li>тыс. авто/час пик</li>\<li>53%</li>\</ul>\</div>', '#menu8' )    
     
     metro_select.onchange = function(){
-        console.log(select.value)
-        if (select.value === 'Беговая'){
+        console.log(metro_select.value)
+        if (metro_select.value === 'Беговая'){
             myMap.setCenter([55.771150, 37.543381])
         }
-        else if (select.value === 'Белорусская'){
+        else if (metro_select.value === 'Белорусская'){
             myMap.setCenter([55.776882, 37.581352])
         }
     }
