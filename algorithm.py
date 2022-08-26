@@ -72,9 +72,9 @@ class Office(Building):
         if self.distance <= 500:
             self.K_high = 1
         elif 500 < self.distance <= 1000:
-            self.K_high = 0.6
+            self.K_high = 0.3
         else:
-            self.K_high = 0.4
+            self.K_high = 0.2
         self.setter()
         self.type = "office"
 
@@ -88,9 +88,9 @@ class House(Building):
         if self.distance <= 500:
             self.K_high = 1
         elif 500 < self.distance <= 1000:
-            self.K_high = 0.8
+            self.K_high = 0.3
         else:
-            self.K_high = 0.6
+            self.K_high = 0.2
         self.setter()
         self.type = "house"
 
@@ -104,9 +104,9 @@ class Houses(House):
         if self.distance <= 500:
             self.K_high = 1
         elif 500 < self.distance <= 1000:
-            self.K_high = 0.8
+            self.K_high = 0.3
         else:
-            self.K_high = 0.6
+            self.K_high = 0.2
         self.setter()
         self.type = "houses"
 
@@ -120,9 +120,9 @@ class Hotel(Building):
         if self.distance <= 500:
             self.K_high = 1
         elif 500 < self.distance <= 1000:
-            self.K_high = 0.8
+            self.K_high = 0.3
         else:
-            self.K_high = 0.6
+            self.K_high = 0.2
         self.setter()
         self.type = "hotel"
 
@@ -165,7 +165,7 @@ class Metro(Infrastructure):
         else:
             self.a = 0
 
-            self.percentage = rush_people / self.max_passengers
+            self.percentage = rush_people #/ self.max_passengers
 
     def getter(self):
         if self.a:
