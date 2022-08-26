@@ -1,5 +1,3 @@
-import base
-
 important_building_coeff = 1.2
 k_high = 1
 
@@ -194,22 +192,7 @@ class Road(Infrastructure):
         return [{'effect_inequality': self.effect, 'house_people': round(self.house_people)},  # red color
                 {'rush_hour': self.rush_hour, 'percentage of max using': self.percentage}]
 
-
-# TEST
-
-Bellar_district = District(202000, 212000)
-# print(Bellar_district.getter())
-dom = Office(625, 15, 10, important_building_coeff, 1)
+    
 # self, area: float, floors: int, distance: float, coeff: float, important_num: int, n: int
-
-
-# print(dom.getter())
-Bel_ring = Metro(18000, dom.getter(), Bellar_district.getter(), 9.6, 1, "12:30")
 # self, max_passengers: int, metro_people: list, all_metro: list, rush_people: float, direction: int, pick: str
-
-print(Bel_ring.getter())
-rod = Road(1562, dom.getter(), Bellar_district.getter(), 724, 1, "01:30")
 # self, max_passengers: int, auto: list, all_auto: list, rush_people: float, direction: int, pick: str
-
-
-print(rod.getter())
