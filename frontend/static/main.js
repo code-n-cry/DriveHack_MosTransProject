@@ -75,18 +75,22 @@ function init () {
     return percent;
     
     }
+
+    var content;    
+
+
     var moveMark = addMoveMark([21.324580, 0.951634], 'метка))', "islands#redStretchyIcon", '<div id = "menu_move"> <ul id = "menu_move_list"> <li>прикольчик</li></ul></div>', '#menu_move', 47)
 
-    var mark1 = addMark([55.776882, 37.581352], 'Ст. Метро Белорусская', "islands#greenStretchyIcon", '<div id="menu">\ <ul id="menu_list">\<li>Пиковая нагрузка:</li>\<li>9,6</li>\<li>тыс.чел./час пик</li>\<li>53%</li>\</ul>\</div>', '#menu', 30)
+    var mark1 = addMark([55.776882, 37.581352], 'Ст. Метро Белорусская', "islands#blueStretchyIcon", '<div id="menu">\ <ul id="menu_list">\<li>Пиковая нагрузка:</li>\<li>9,6</li>\<li>тыс.чел./час пик</li>\<li>53%</li>\</ul>\</div>', '#menu', 30)
     
-    var mark2 = addMark([55.77378, 37.54412], 'Ст. Метро Беговая', "islands#greenStretchyIcon", '<div id="menu1">\<ul id="menu_list">\<li>Пиковая нагрузка:</li>\<li>9,6</li>\<li>тыс.чел./час пик</li>\<li>53%</li>\</ul>\</div>', "#menu1" )
-    var mark3 = addMark([55.774584, 37.560923], 'Дорога из центра', "islands#greenStretchyIcon", '<div id="menu2">\<ul id="menu_list">\<li>Пиковая нагрузка:</li>\<li>9,6</li>\<li>тыс. авто/час пик</li>\<li>53%</li>\</ul>\</div>', "#menu2")
-    var mark4 = addMark([55.775503, 37.571737], "Дорога в центр", "islands#greenStretchyIcon", '<div id="menu3">\<ul id="menu_list">\<li>Пиковая нагрузка:</li>\<li>9,6</li>\<li>тыс. авто/час пик</li>\<li>53%</li>\</ul>\</div>', "#menu3")
-    var mark5 = addMark([55.773229, 37.554314], "Дорога", "islands#greenStretchyIcon", '<div id="menu4">\<ul id="menu_list">\<li>Пиковая нагрузка:</li>\<li>9,6</li>\<li>тыс. авто/час пик</li>\<li>53%</li>\</ul>\</div>', '#menu4' )
-    var mark6 = addMark([55.770859, 37.567703], "Дорога из центра", "islands#greenStretchyIcon", '<div id="menu5">\<ul id="menu_list">\<li>Пиковая нагрузка:</li>\<li>9,6</li>\<li>тыс. авто/час пик</li>\<li>53%</li>\</ul>\</div>', '#menu5' )
-    var mark7 = addMark([55.772581, 37.572870], "Дорога в центр", "islands#greenStretchyIcon", '<div id="menu6">\<ul id="menu_list">\<li>Пиковая нагрузка:</li>\<li>9,6</li>\<li>тыс. авто/час пик</li>\<li>53%</li>\</ul>\</div>', "#menu6")
-    var mark8 = addMark([55.773887, 37.579179], "Дорога из центра", "islands#greenStretchyIcon", '<div id="menu7">\<ul id="menu_list">\<li>Пиковая нагрузка:</li>\<li>9,6</li>\<li>тыс. авто/час пик</li>\<li>53%</li>\</ul>\</div>', '#menu7')
-    var mark9 = addMark([55.775097, 37.582827], "Дорога в центр", "islands#greenStretchyIcon", '<div id="menu8">\<ul id="menu_list">\<li>Пиковая нагрузка:</li>\<li>9,6</li>\<li>тыс. авто/час пик</li>\<li>53%</li>\</ul>\</div>', '#menu8' )
+    var mark2 = addMark([55.77378, 37.54412], 'Ст. Метро Беговая', "islands#blueStretchyIcon", '<div id="menu1">\<ul id="menu_list">\<li>Пиковая нагрузка:</li>\<li>9,6</li>\<li>тыс.чел./час пик</li>\<li>53%</li>\</ul>\</div>', "#menu1" )
+    var mark3 = addMark([55.774584, 37.560923], 'Дорога из центра', "islands#blueStretchyIcon", '<div id="menu2">\<ul id="menu_list">\<li>Пиковая нагрузка:</li>\<li>9,6</li>\<li>тыс. авто/час пик</li>\<li>53%</li>\</ul>\</div>', "#menu2")
+    var mark4 = addMark([55.775503, 37.571737], "Дорога в центр", "islands#blueStretchyIcon", '<div id="menu3">\<ul id="menu_list">\<li>Пиковая нагрузка:</li>\<li>9,6</li>\<li>тыс. авто/час пик</li>\<li>53%</li>\</ul>\</div>', "#menu3")
+    var mark5 = addMark([55.773229, 37.554314], "Дорога", "islands#blueStretchyIcon", '<div id="menu4">\<ul id="menu_list">\<li>Пиковая нагрузка:</li>\<li>9,6</li>\<li>тыс. авто/час пик</li>\<li>53%</li>\</ul>\</div>', '#menu4' )
+    var mark6 = addMark([55.770859, 37.567703], "Дорога из центра", "islands#blueStretchyIcon", '<div id="menu5">\<ul id="menu_list">\<li>Пиковая нагрузка:</li>\<li>9,6</li>\<li>тыс. авто/час пик</li>\<li>53%</li>\</ul>\</div>', '#menu5' )
+    var mark7 = addMark([55.772581, 37.572870], "Дорога в центр", "islands#blueStretchyIcon", '<div id="menu6">\<ul id="menu_list">\<li>Пиковая нагрузка:</li>\<li>9,6</li>\<li>тыс. авто/час пик</li>\<li>53%</li>\</ul>\</div>', "#menu6")
+    var mark8 = addMark([55.773887, 37.579179], "Дорога из центра", "islands#blueStretchyIcon", '<div id="menu7">\<ul id="menu_list">\<li>Пиковая нагрузка:</li>\<li>9,6</li>\<li>тыс. авто/час пик</li>\<li>53%</li>\</ul>\</div>', '#menu7')
+    var mark9 = addMark([55.775097, 37.582827], "Дорога в центр", "islands#blueStretchyIcon", '<div id="menu8">\<ul id="menu_list">\<li>Пиковая нагрузка:</li>\<li>9,6</li>\<li>тыс. авто/час пик</li>\<li>53%</li>\</ul>\</div>', '#menu8' )
     
     
     
