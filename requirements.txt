@@ -4,3 +4,4 @@ databases
 aiohttp
 pydantic
 geopy
+jinja2
