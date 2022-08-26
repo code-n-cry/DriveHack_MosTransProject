@@ -165,10 +165,14 @@ class Metro(Infrastructure):
             self.a = 0
 
     def getter(self):
-        return [
-            {'effect_inequality': self.a, 'house_people': self.sum_peopel},
-            {'rush_hour': self.rush_hour, 'using_bandwidth': self.percentage}]
-
+        if self.a:
+            return [
+                {'effect_inequality': self.a, 'house_people': self.sum_peopel},
+                {'rush_hour': self.rush_hour, 'using_bandwidth': self.percentage}]
+        else:
+            return [
+                {'effect_inequality': self.a, 'house_people': self.sum_peopel},
+                {'rush_hour': 0, 'using_bandwidth': 0}]
 
 class Road(Infrastructure):
     def __init__(self, max_passengers: int, auto: list, all_auto: list, rush_people: float, direction: int, pick: str):
