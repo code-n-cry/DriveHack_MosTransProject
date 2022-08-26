@@ -151,7 +151,7 @@ class Metro(Infrastructure):
         if (metro_people['metro']) + metro_people['auto']:
             self.using_passenger_traffic = (all_metro['metro'] + metro_people['metro']) * metro_people['coeff']
             if 360 <= self.time <= 540 or 1020 <= self.time <= 1200:
-                self.rush_hour = 0.5 * 0.6 * (
+                self.rush_hour = 0.3 * 0.6 * (
                         (all_metro['metro'] + metro_people['metro']) * metro_people['coeff']) + rush_people
             else:
                 self.rush_hour = 0.35 * 0.5 * (
@@ -164,8 +164,8 @@ class Metro(Infrastructure):
             self.a = round(self.percentage - self.effect, 1)
         else:
             self.a = 0
-             
-            self.percentage = self.rush_hour/self.max_passengers
+
+            self.percentage = rush_people / self.max_passengers
 
     def getter(self):
         if self.a:
@@ -176,6 +176,7 @@ class Metro(Infrastructure):
             return [
                 {'effect_inequality': self.a, 'house_people': self.sum_people},
                 {'rush_hour': self.rush_hour, 'using_bandwidth': self.percentage}]
+
 
 class Road(Infrastructure):
     def __init__(self, max_passengers: int, auto: list, all_auto: list, rush_people: float, direction: int, pick: str):
@@ -198,10 +199,9 @@ class Road(Infrastructure):
         self.house_people = (auto['auto']) + auto['metro']
 
     def getter(self):
-        
+
         return [{'effect_inequality': self.effect, 'house_people': round(self.house_people)},  # red color
                 {'rush_hour': self.rush_hour, 'percentage of max using': self.percentage}]
 
-
-#rod = Road(1562, dom.getter(), Bellar_district.getter(), 724, 1, "01:30")
+# rod = Road(1562, dom.getter(), Bellar_district.getter(), 724, 1, "01:30")
 # self, max_passengers: int, auto: list, all_auto: list, rush_people: float, direction: int, pick: str
