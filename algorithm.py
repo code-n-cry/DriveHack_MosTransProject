@@ -177,7 +177,7 @@ class Metro(Infrastructure):
             self.percentage =round(1000*9.6 / 18000, 1)
 
     def getter(self):
-        if self.a:
+        if self.a and k_high:
             return [
                 {'effect_inequality': self.a, 'house_people': self.sum_people},
                 {'rush_hour': self.rush_hour, 'using_bandwidth': self.percentage}]
