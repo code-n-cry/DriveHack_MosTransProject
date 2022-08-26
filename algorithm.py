@@ -1,4 +1,13 @@
+import base
+
 important_building_coeff = 1.2
+k_high = 1
+
+
+def time(tim: str):
+    ans = tim.split(':')
+    ans = int(ans[0]) * 60 + int(ans[1])
+    return ans
 
 
 class District:
@@ -36,17 +45,19 @@ class Building:
         self.type = None
         self.metro_people = None
         self.auto = None
-        self.distance = distance
+        self.distance = None
         self.work_place = None
         self.area = area
         self.important_buildings = important_num
         self.number_of_floors = floors
         self.coeff = coeff
         self.n = n
+        self.K_high = 1
 
     def setter(self):
-        self.work_place = self.important_buildings * self.n * (self.area * self.number_of_floors) // self.coeff
-        self.auto = round(self.work_place / 1.2)
+        self.work_place = self.important_buildings * self.K_high * self.n * (
+                self.area * self.number_of_floors) // self.coeff
+        self.auto = round(self.work_place / 1.3)
         self.metro_people = self.work_place - self.auto
 
     def getter(self):
@@ -59,7 +70,16 @@ class Office(Building):
     def __init__(self, area: float, floors: int,
                  distance: float, coeff: float, important_num: int):
         super().__init__(area, floors, distance, 10, important_num, 1)
+        self.distance = distance
+        if self.distance <= 500:
+            self.K_high = 1
+        elif 500 < self.distance <= 1000:
+            self.K_high = 0.6
+        else:
+            self.K_high = 0.4
         self.setter()
+        # distance = float(input())
+
         self.type = "office"
 
 
@@ -68,6 +88,13 @@ class House(Building):
                  distance: float, coeff: float, important_num: int, n: int):
         super().__init__(area, floors, distance, 25, important_num, 1)
         self.n = n
+        self.distance = distance
+        if self.distance <= 500:
+            self.K_high = 1
+        elif 500 < self.distance <= 1000:
+            self.K_high = 0.8
+        else:
+            self.K_high = 0.6
         self.setter()
         self.type = "house"
 
@@ -77,6 +104,13 @@ class Houses(House):
                  distance: float, coeff: float, important_num: int, n: int):
         super().__init__(area, floors, distance, 25, important_num, n)
         self.n = n
+        self.distance = distance
+        if self.distance <= 500:
+            self.K_high = 1
+        elif 500 < self.distance <= 1000:
+            self.K_high = 0.8
+        else:
+            self.K_high = 0.6
         self.setter()
         self.type = "houses"
 
@@ -86,6 +120,13 @@ class Hotel(Building):
                  distance: float, coeff: float, important_num: int, n: int):
         super().__init__(area, floors, distance, 45, important_num, 1)
         self.n = n
+        self.distance = distance
+        if self.distance <= 500:
+            self.K_high = 1
+        elif 500 < self.distance <= 1000:
+            self.K_high = 0.8
+        else:
+            self.K_high = 0.6
         self.setter()
         self.type = "hotel"
 
@@ -95,7 +136,8 @@ class Infrastructure:
         Родительский класс всех объектов инфраструктуры
     """
 
-    def __init__(self, max_passengers: int, metro_people: list, all_metro: list, rush_people: float, direction: int):
+    def __init__(self, max_passengers: int, metro_people: list, all_metro: list, rush_people: float, direction: int,
+                 pick: str):
         self.using_passenger_traffic = None
         self.max_bandwidth = None
         self.max_passenger_traffic = max_passengers
@@ -103,48 +145,71 @@ class Infrastructure:
 
 
 class Metro(Infrastructure):
-    def __init__(self, max_passengers: int, metro_people: list, all_metro: list, rush_people: float, direction: int):
-        super().__init__(max_passengers, metro_people, all_metro, rush_people, direction=1)
+    def __init__(self, max_passengers: int, metro_people: list, all_metro: list, rush_people: float, direction: int,
+                 pick: str):
+        super().__init__(max_passengers, metro_people, all_metro, rush_people, direction, pick="12:30")
+        self.time = time(pick)
         self.max_passengers = max_passengers
         self.using_passenger_traffic = (all_metro['metro'] + metro_people['metro']) * metro_people['coeff']
-        self.rush_hour = 0.35 * 0.6 * (
+        if 360 <= self.time <= 540 or 1020 <= self.time <= 1200:
+            self.rush_hour = 0.5 * 0.6 * (
+                    (all_metro['metro'] + metro_people['metro']) * metro_people['coeff']) + rush_people
+        else:
+            self.rush_hour = 0.35 * 0.5 * (
                     (all_metro['metro'] + metro_people['metro']) * metro_people['coeff']) + rush_people
         self.percentage = round(100 * self.rush_hour / self.max_passengers, 1)
 
-        self.effect = round(100 * (self.rush_hour - (100 * rush_people)) / self.max_passengers,1)
-        self.house_people = (all_metro['metro'] + metro_people['metro']) * metro_people['coeff']
-
+        self.effect = round(round((100 * (self.rush_hour) / self.max_passengers), 1) - round(
+            10 * (self.rush_hour - rush_people) / self.max_passengers, 1), 1)
+        self.house_people = (metro_people['metro']) + metro_people['auto']
 
     def getter(self):
-        return [{'effect_inequality' : self.effect,'house_people': round(self.house_people)},
-                {'rush_hour': self.rush_hour, 'using_bandwidth': self.percentage}]
+        return [
+            {'effect_inequality': round(self.percentage - self.effect, 1), 'house_people': round(self.house_people)},
+            {'rush_hour': self.rush_hour, 'using_bandwidth': self.percentage}]
 
 
 class Road(Infrastructure):
-    def __init__(self, max_passengers: int, auto: list, all_auto: list, rush_people: float, direction: int):
-        super().__init__(max_passengers, auto, all_auto, rush_people, direction=1)
+    def __init__(self, max_passengers: int, auto: list, all_auto: list, rush_people: float, direction: int, pick: str):
+        super().__init__(max_passengers, auto, all_auto, rush_people, pick="12:30", direction=1)
         self.max_passengers = max_passengers
+        self.time = time(pick)
         self.using_passenger_traffic = (auto['auto'] + all_auto['auto']) * auto['coeff']
-        if direction:  # в центр
-            self.rush_hour = round(0.40 * 0.005423 * ((auto['auto'] + all_auto['auto']) * auto['coeff'])) + rush_people
+        if direction and 360 <= self.time <= 540:  # в центр
+            self.rush_hour = round(0.45 / 24 * ((auto['auto'] + all_auto['auto']) * auto['coeff'])) + rush_people
+            print(self.rush_hour)
+        elif not (direction) and 360 <= self.time <= 540:
+            self.rush_hour = round(0.2 / 24 * ((auto['auto'] + all_auto['auto']) * auto['coeff'])) + rush_people
+            print(self.rush_hour)
+
         else:  # из центра
-            self.rush_hour = round(0.25 * 0.005423 * ((auto['auto'] + all_auto['auto']) * auto['coeff'])) + rush_people
-        self.effect = round(100 * (self.rush_hour - rush_people) / self.max_passengers,1)
-        self.percentage = round(100 * self.rush_hour / self.max_passengers, 1)
-        self.house_people = (auto['auto'] + all_auto['auto']) * auto['coeff']
+            self.rush_hour = round(0.3 / 24 * ((auto['auto'] + all_auto['auto']) * auto['coeff'])) + rush_people
+        self.effect = round(round(10 * self.rush_hour / self.max_passengers, 1) - round(
+            10 * (self.rush_hour - rush_people) / self.max_passengers, 1), 1)
+        self.percentage = round(10 * self.rush_hour / self.max_passengers, 1)
+        self.house_people = (auto['auto']) + auto['metro']
 
     def getter(self):
 
-        return [{'effect_inequality' : self.effect,'house_people': round(self.house_people)},                # red color
+        return [{'effect_inequality': self.effect, 'house_people': round(self.house_people)},  # red color
                 {'rush_hour': self.rush_hour, 'percentage of max using': self.percentage}]
 
-#TEST
 
-Bellar_district = District(202000,212000)
-#print(Bellar_district.getter())
-dom = Office(1000,20,100,important_building_coeff, 1)
-#print(dom.getter())
-Bel_ring = Metro(18000, dom.getter(), Bellar_district.getter(), 9.6, 0)
+# TEST
+
+Bellar_district = District(202000, 212000)
+# print(Bellar_district.getter())
+dom = Office(625, 15, 10, important_building_coeff, 1)
+# self, area: float, floors: int, distance: float, coeff: float, important_num: int, n: int
+
+
+# print(dom.getter())
+Bel_ring = Metro(18000, dom.getter(), Bellar_district.getter(), 9.6, 1, "12:30")
+# self, max_passengers: int, metro_people: list, all_metro: list, rush_people: float, direction: int, pick: str
+
 print(Bel_ring.getter())
-rod = Road(1562, dom.getter(), Bellar_district.getter(), 724,0)
+rod = Road(1562, dom.getter(), Bellar_district.getter(), 724, 1, "01:30")
+# self, max_passengers: int, auto: list, all_auto: list, rush_people: float, direction: int, pick: str
+
+
 print(rod.getter())
