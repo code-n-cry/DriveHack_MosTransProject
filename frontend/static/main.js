@@ -34,7 +34,9 @@ function init () {
     return percent;
     }
     
-    function addMoveMark(coords, iconContentVal, presetVal, menuContentVal, elemTag, percent){
+    var load = "load";
+    var percent = "percent";
+    function addMoveMark(coords, iconContentVal, presetVal, menuContentVal, elemTag){
         myPlacemark = new ymaps.Placemark([21.324580, 0.951634],{iconContent: iconContentVal}, {preset: presetVal, draggable: true});
         myMap.geoObjects.add(myPlacemark);
         
@@ -42,13 +44,18 @@ function init () {
             let coords = this.geometry.getCoordinates();
             coords_arr = coords
             myPlacemark.geometry.setCoordinates(coords);
+            var elem = document.getElementById('label')
+            elem.innerHTML = `<p><div><ul id="menu_list"><li> Пиковая нагрузка:</li><li>${load}</li><li>тыс.чел./час пик</li><li>${percent}</li></ul></div></p>`
             }, myPlacemark);
     
         myMap.events.add('click', function (e) {        
-            let coords = e.get('coords');
+             let coords = e.get('coords');
             coords_arr = coords
             myPlacemark.geometry.setCoordinates(coords);
-            }); 
+            var elem = document.getElementById('label')          
+            elem.innerHTML = `<p><div><ul id="menu_list"><li> Пиковая нагрузка:</li><li>${load}</li><li>тыс.чел./час пик</li><li>${percent}</li></ul></div></p>`
+            return coords;     
+        }); 
         
         myPlacemark.events.add('contextmenu', function (e) {
                 if ($(elemTag).css('display') == 'block') {
@@ -66,6 +73,7 @@ function init () {
     });
     return percent;
     }
+
     btn.onclick = function () {
         let type = select.value
         let houses = 1
@@ -97,31 +105,34 @@ function init () {
     }
     var content;
     
-    var moveMark = addMoveMark([21.324580, 0.951634], 'Инфо', "islands#redStretchyIcon", '<div id = "menu_move"> <ul id = "menu_move_list"> <li>инфо</li></ul></div>', '#menu_move', 47)
+    var moveMark = addMoveMark([21.324580, 0.951634], 'Здание))', "islands#redStretchyIcon", '<div id = "menu_move"> <ul id = "menu_move_list"> <li>info:</li></ul></div>', '#menu_move', 47)
     
-    var mark1 = addMark([55.776882, 37.581352], 'Ст. Метро Белорусская', "islands#blueStretchyIcon", '<div id="menu">\ <ul id="menu_list">\<li>Пиковая нагрузка:</li>\<li>9,6</li>\<li>тыс.чел./час пик</li>\<li>53%</li>\</ul>\</div>', '#menu', 30)
-    var mark2 = addMark([55.77378, 37.54412], 'Ст. Метро Беговая', "islands#blueStretchyIcon", '<div id="menu1">\<ul id="menu_list">\<li>Пиковая нагрузка:</li>\<li>9,6</li>\<li>тыс.чел./час пик</li>\<li>53%</li>\</ul>\</div>', "#menu1" )
-    var mark3 = addMark([55.774584, 37.560923], 'Дорога из центра', "islands#blueStretchyIcon", '<div id="menu2">\<ul id="menu_list">\<li>Пиковая нагрузка:</li>\<li>9,6</li>\<li>тыс. авто/час пик</li>\<li>53%</li>\</ul>\</div>', "#menu2")
-    var mark4 = addMark([55.775503, 37.571737], "Дорога в центр", "islands#blueStretchyIcon", '<div id="menu3">\<ul id="menu_list">\<li>Пиковая нагрузка:</li>\<li>9,6</li>\<li>тыс. авто/час пик</li>\<li>53%</li>\</ul>\</div>', "#menu3")
-    var mark5 = addMark([55.773229, 37.554314], "Дорога", "islands#blueStretchyIcon", '<div id="menu4">\<ul id="menu_list">\<li>Пиковая нагрузка:</li>\<li>9,6</li>\<li>тыс. авто/час пик</li>\<li>53%</li>\</ul>\</div>', '#menu4' )
-    var mark6 = addMark([55.770859, 37.567703], "Дорога из центра", "islands#blueStretchyIcon", '<div id="menu5">\<ul id="menu_list">\<li>Пиковая нагрузка:</li>\<li>9,6</li>\<li>тыс. авто/час пик</li>\<li>53%</li>\</ul>\</div>', '#menu5' )
-    var mark7 = addMark([55.772581, 37.572870], "Дорога в центр", "islands#blueStretchyIcon", '<div id="menu6">\<ul id="menu_list">\<li>Пиковая нагрузка:</li>\<li>9,6</li>\<li>тыс. авто/час пик</li>\<li>53%</li>\</ul>\</div>', "#menu6")
-    var mark8 = addMark([55.773887, 37.579179], "Дорога из центра", "islands#blueStretchyIcon", '<div id="menu7">\<ul id="menu_list">\<li>Пиковая нагрузка:</li>\<li>9,6</li>\<li>тыс. авто/час пик</li>\<li>53%</li>\</ul>\</div>', '#menu7')
-    var mark9 = addMark([55.775097, 37.582827], "Дорога в центр", "islands#blueStretchyIcon", '<div id="menu8">\<ul id="menu_list">\<li>Пиковая нагрузка:</li>\<li>9,6</li>\<li>тыс. авто/час пик</li>\<li>53%</li>\</ul>\</div>', '#menu8' )    
+    var mark1 = addMark([55.776882, 37.581352], 'Ст. Метро Белорусская', "islands#blueStretchyIcon", `<div id="menu">\ <ul id="menu_list">\<li>Пиковая нагрузка:</li>\<li>${load}</li>\<li>тыс.чел./час пик</li>\<li>${percent}%</li>\</ul>\</div>`, '#menu')
+    var mark2 = addMark([55.77378, 37.54412], 'Ст. Метро Беговая', "islands#blueStretchyIcon", `<div id="menu1">\<ul id="menu_list">\<li>Пиковая нагрузка:</li>\<li>${load}</li>\<li>тыс.чел./час пик</li>\<li>${percent}%</li>\</ul>\</div>`, "#menu1" )
+    var mark3 = addMark([55.774584, 37.560923], 'Дорога из центра', "islands#blueStretchyIcon", `<div id="menu2">\<ul id="menu_list">\<li>Пиковая нагрузка:</li>\<li>${load}</li>\<li>тыс. авто/час пик</li>\<li>${percent}%</li>\</ul>\</div>`, "#menu2")
+    var mark4 = addMark([55.775503, 37.571737], "Дорога в центр", "islands#blueStretchyIcon", `<div id="menu3">\<ul id="menu_list">\<li>Пиковая нагрузка:</li>\<li>${load}</li>\<li>тыс. авто/час пик</li>\<li>${percent}%</li>\</ul>\</div>`, "#menu3")
+    var mark5 = addMark([55.773229, 37.554314], "Дорога", "islands#blueStretchyIcon", `<div id="menu4">\<ul id="menu_list">\<li>Пиковая нагрузка:</li>\<li>${load}</li>\<li>тыс. авто/час пик</li>\<li>${percent}%</li>\</ul>\</div>`, '#menu4' )
+    var mark6 = addMark([55.770859, 37.567703], "Дорога из центра", "islands#blueStretchyIcon", `<div id="menu5">\<ul id="menu_list">\<li>Пиковая нагрузка:</li>\<li>${load}</li>\<li>тыс. авто/час пик</li>\<li>${percent}%</li>\</ul>\</div>`, '#menu5' )
+    var mark7 = addMark([55.772581, 37.572870], "Дорога в центр", "islands#blueStretchyIcon", `<div id="menu6">\<ul id="menu_list">\<li>Пиковая нагрузка:</li>\<li>${load}</li>\<li>тыс. авто/час пик</li>\<li>${percent}%</li>\</ul>\</div>`, "#menu6")
+    var mark8 = addMark([55.773887, 37.579179], "Дорога из центра", "islands#blueStretchyIcon", `<div id="menu7">\<ul id="menu_list">\<li>Пиковая нагрузка:</li>\<li>${load}</li>\<li>тыс. авто/час пик</li>\<li>${percent}%</li>\</ul>\</div>`, '#menu7')
+    var mark9 = addMark([55.775097, 37.582827], "Дорога в центр", "islands#blueStretchyIcon", `<div id="menu8">\<ul id="menu_list">\<li>Пиковая нагрузка:</li>\<li>${load}</li>\<li>тыс. авто/час пик</li>\<li>${percent}%</li>\</ul>\</div>`, '#menu8' )    
     
     metro_select.onchange = function(){
-        console.log(select.value)
-        if (select.value === 'Беговая'){
+        console.log(metro_select.value)
+        if (metro_select.value === 'Беговая'){
             myMap.setCenter([55.771150, 37.543381])
         }
-        else if (select.value === 'Белорусская'){
+        else if (metro_select.value === 'Белорусская'){
             myMap.setCenter([55.776882, 37.581352])
         }
     }
-    function changeColor(id, color, mark){
+    /*function changeColor(id, color, mark){
         var element = document.getElementById(id);
-        if (mark <= 40){
+        console.log(element)
+        if (1==1){
+            
             element.style.background = 'green';
+            alert('bhnjmk')
         }
         else if (mark > 40 && mark <= 65){
             element.style.background = 'yellow'
@@ -131,8 +142,7 @@ function init () {
         }
     }
 
-    mark1 = changeColor('menu', mark1)
-    
+    mark1 = changeColor('menu', mark1) */
 }
 var select = document.getElementById('type_change');
 var btn = document.getElementById('ok_btn')
