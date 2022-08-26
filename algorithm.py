@@ -156,7 +156,7 @@ class Metro(Infrastructure):
         self.max_passengers = max_passengers
         self.rush_hour = rush_people
         self.sum_people = metro_people['metro'] + metro_people['auto']
-        if (metro_people['metro']) + metro_people['auto']:
+        if (metro_people['metro']) + metro_people['auto']and k_high:
             self.using_passenger_traffic = (all_metro['metro'] + metro_people['metro']) * metro_people['coeff']
             if 360 <= self.time <= 540 or 1020 <= self.time <= 1200:
                 self.rush_hour = 0.3 * 0.6 * (
