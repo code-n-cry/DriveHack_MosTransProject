@@ -164,10 +164,11 @@ class Metro(Infrastructure):
             self.a = round(self.percentage - self.effect, 1)
         else:
             self.a = 0
+            self.men = 100000*9.6 / 18000
             if 360 <= self.time <= 540 or 1020 <= self.time <= 1200:
-                self.percentage =round(1.3*(100000*9.6 / 18000), 1)
+                self.percentage =round(1.3*(self.men), 1)
             else:
-                self.percentage =round(1.3*(100000*9.6 / 18000), 1)
+                self.percentage =round(1.3*(self.men), 1)
 
     def getter(self):
         if self.a:
