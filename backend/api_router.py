@@ -1,10 +1,20 @@
 from fastapi import APIRouter, Request
 from fastapi.responses import JSONResponse
 from algorithm import *
-import aiohttp
-from geopy import distance
-from backend.schemas.district import DistrictData
-from backend.schemas.buildings import BuildingData, HousesData
+from math import radians, cos, sin, asin, sqrt
+
+
+def get_distance(lat1, lat2, lon1, lon2):
+    lon1 = radians(lon1)
+    lon2 = radians(lon2)
+    lat1 = radians(lat1)
+    lat2 = radians(lat2)
+    dlon = lon2 - lon1
+    dlat = lat2 - lat1
+    a = sin(dlat / 2)**2 + cos(lat1) * cos(lat2) * sin(dlon / 2)**2
+    c = 2 * asin(sqrt(a))
+    r = 6371
+    return(c * r) * 1000
 
 router = APIRouter(
     prefix='/api'
@@ -29,9 +39,10 @@ metro_cords = {'Белорусская': (55.777349, 37.581997), 'Беговая
 @router.get('/traffic')
 async def get_info(cords: str, type: str, area: float, floors: int, schools: int, n: int, metro: str, time: str):
     cords = tuple(float(i) for i in cords.split(','))
-    dst = distance.geodesic(cords, metro_cords[metro]).m
-    print(dst)
+    dst = get_distance(metro_cords[metro][0], cords[0], metro_cords[metro][1], cords[1])
     building = types[type](area, floors, dst, schools, n)
-    metro_params = {'Default': {'Белорусская': 18000, 'Беговая': 13500}, 'Rush': {'Белорусская': 9.6, 'Беговая': 34}}
-    metro = Metro(metro_params['Default'][metro], building.getter(), bellar_district.getter(), metro_params['Rush'][metro], 1, time)
+    roads = []
+    metro_params = {'Default': {'Белорусская': 18000, 'Беговая': 13500}, 'Rush': {'Белорусская': 9.6, 'Беговая': 3.4}}
+    metro = Metro(metro_params['Default'][metro], building.getter(), bellar_district.getter(), metro_params['Rush'][metro], 1, time)    
     return metro.getter()
+
