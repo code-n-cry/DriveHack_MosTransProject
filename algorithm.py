@@ -69,7 +69,9 @@ class Office(Building):
                  distance: float, important_num: int, n: int):
         super().__init__(area, floors, distance, 10, important_num, 1)
         self.distance = distance
-        if self.distance <= 500:
+        if self.distance >=3500:
+            self.K_high = 1
+        elif self.distance <= 500:
             self.K_high = 1
         elif 500 < self.distance <= 1000:
             self.K_high = 0.3
@@ -85,7 +87,9 @@ class House(Building):
         super().__init__(area, floors, distance, 25, important_num, 1)
         self.n = n
         self.distance = distance
-        if self.distance <= 500:
+        if self.distance >=3500:
+            self.K_high = 1
+        elif self.distance <= 500:
             self.K_high = 1
         elif 500 < self.distance <= 1000:
             self.K_high = 0.3
@@ -101,7 +105,9 @@ class Houses(House):
         super().__init__(area, floors, distance, important_num, n)
         self.n = n
         self.distance = distance
-        if self.distance <= 500:
+        if self.distance >=3500:
+            self.K_high = 1
+        elif self.distance <= 500:
             self.K_high = 1
         elif 500 < self.distance <= 1000:
             self.K_high = 0.3
@@ -117,7 +123,9 @@ class Hotel(Building):
         super().__init__(area, floors, distance, 45, important_num, 1)
         self.n = n
         self.distance = distance
-        if self.distance <= 500:
+        if self.distance >=3500:
+            self.K_high = 1
+        elif self.distance <= 500:
             self.K_high = 1
         elif 500 < self.distance <= 1000:
             self.K_high = 0.3
@@ -164,11 +172,8 @@ class Metro(Infrastructure):
             self.a = round(self.percentage - self.effect, 1)
         else:
             self.a = 0
-            self.men = 100000*9.6 / 18000
-            if 360 <= self.time <= 540 or 1020 <= self.time <= 1200:
-                self.percentage =round(1.3*(self.men), 1)
-            else:
-                self.percentage =round(1.3*(self.men), 1)
+
+            self.percentage =round(1000*9.6 / 18000, 1)
 
     def getter(self):
         if self.a:
