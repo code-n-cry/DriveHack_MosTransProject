@@ -170,11 +170,11 @@ class Metro(Infrastructure):
     def getter(self):
         if self.a:
             return [
-                {'effect_inequality': self.a, 'house_people': self.sum_peopel},
+                {'effect_inequality': self.a, 'house_people': self.sum_people},
                 {'rush_hour': self.rush_hour, 'using_bandwidth': self.percentage}]
         else:
             return [
-                {'effect_inequality': self.a, 'house_people': self.sum_peopel},
+                {'effect_inequality': self.a, 'house_people': self.sum_people},
                 {'rush_hour': self.rush_hour, 'using_bandwidth': self.percentage}]
 
 class Road(Infrastructure):
